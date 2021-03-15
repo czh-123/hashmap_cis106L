@@ -1,0 +1,103 @@
+Milestone 4: Answer Short Answer Questions
+Name(s): [insert your names here]
+
+Answer the following questions in this file.
+These questions do not require long answers or even complete sentences.
+
+Please limit each line of this text file to 80 characters wide
+use multiple lines for each question, if necessary.
+
+
+Example:
+Q0. Consider the test case B_move_constructor_assignment. You should see a
+    line with std::move(map1). Then, in the next line, we move from map1 to
+    create move_constructed. Why is this valid?
+
+A0. std::move marks map eligible to be moved, but does not actually move.
+    A function taking an r-value (eg. move constructor) does the moving.
+    map1 is not passed to such a function, so we can still move from map1.
+--------------------------------------------------------------------------------
+Q1. In the clear() function, the for-each loop contains an auto&. Explain what
+    the deduced type of that auto is and why the ampersand is necessary.
+
+A1.auto : node *  auto& : a reference to node * .
+for the need of delete on _bucket_array
+--------------------------------------------------------------------------------
+Q2. Take a look at the code inside the test F_custom_hash_function() of the
+    file tests.cpp. What is the purpose of decltype, and is there a way to write
+    that line of code without using decltype? Explain.
+
+A2.decltype to get the type of identity_shifted which is a lambda function and
+pass the type to H as hash function.
+HashMap<K, V, std::function<int(const K&)>> map(75, identity_shifted);
+--------------------------------------------------------------------------------
+Q3. STL containers store elements of type value_type, and for your HashMap this
+    value_type is a std::pair<const K, M>. What would be the problem in the
+    HashMap class if value_type were instead std::pair<K, M>?
+
+A3. the key can be changed  so that key mapped_key doesn't satisfy the hash
+function
+--------------------------------------------------------------------------------
+Q4. Take a look at the function check_map_equal() inside tests.cpp. You might
+    notice that in the test cases, we use check_map_equal() to compare a
+    HashMap and a std::map, but never to compare two HashMaps
+    (we instead use operator==). Why can't we use check_map_equal()
+    to compare two HashMaps?
+
+A4. ` const auto& [key, mapped] : answer ` for HashMap,it is invalid because
+1, data must be private we cannot access data directly
+2, auto cannot deduce the type
+--------------------------------------------------------------------------------
+Q5. Why did you implement both a const and non-const version of at(), but only a
+    non-const version of operator[]? (unlike in Vector where operator[] also had
+    a const version)
+
+A5.a const HashMap can call const member functions : at
+for the operator [] ,it can auto-insertion which should not be const any time.
+in vector the [] cannot auto-insertion so it can be const
+--------------------------------------------------------------------------------
+Q6. Out of all the operators you overloaded, operator<< is the most interesting.
+    - Did you implement operator<< as a member, a friend, or neither? Why?
+    - We had you overload operator<< as an exercise in operator overloading,
+    but but none of the STL collections have  operator<< overloaded.
+    Why do you think the STL designers made this decision?
+
+A6.a friend
+for the purpose of
+--------------------------------------------------------------------------------
+Q7. Consider a class MyClass which has three private members - a size_t,
+    a function object, and a std::vector<int>. In this case the rule of zero
+    applies and you should not write your own special member functions. In
+    your HashMap class the rule of five applies - the starter code had the
+    destructor, and you implemented the other four special member functions.
+    - Why does the rule of zero apply to MyClass?
+    - Why does your HashMap class follow the rule of five and not the rule
+      of zero, if your HashMap private members are also a size_t,
+      a function object, and a std::vector?
+
+A7.
+1,the compiler can generate SMFs
+2,the SMF compiler generate doesn't work for the purpose of the ownership issues
+does not apply rule of zero : the vector is likely vector<node*> ,to manage the
+K/M pair ,we need manually do this. for example , copy need to " new " node
+instead of copy pointers
+--------------------------------------------------------------------------------
+Q8. In your move constructor or move assignment operator, why did you have to
+    std::move each member, even though the parameter (named rhs or other) is
+    already an r-value reference?
+
+A8.Use std::move to make sure other object’s values are treated as rvalues
+--------------------------------------------------------------------------------
+Q9. Is your HashMap class RAII-compliant? If so, explain. If not, give a
+    specific instance in which this could be a problem, and explain how you
+    would make your class RAII-compliant.
+
+A9.not RAII-compliant  new  delete can be aproblem  use unique_ptr
+--------------------------------------------------------------------------------
+Feedback for this assignment:
+1. Did you find the assignment to be a good learning experience?
+2. How much time did you spend on the assignment?
+3. Was the starter code and documentation easy to read?
+4. Any other feedback about the assignment?
+
+Answer here:
