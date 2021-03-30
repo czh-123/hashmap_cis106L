@@ -26,3 +26,17 @@ iterator 本质上是类，而不是指针什么的。
 可以用iterator类 来遍历/操作 stl容器。
 思路/表现上是有点像指针，实现上大不同。
 
+###  const_iterator
+
+iterator_traits  与  std::iterator
+
+
+
+代码规范与一致
+
+
+
+const 的实现 reference type是 const T&
+
+成员变量 (const)与 成员函数 
+
